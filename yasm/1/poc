@@ -1,0 +1,10 @@
+%macro bug 1-*eax, v\FF\FF\FF\FFpop
+%define %$v %1
+		%define vv %$v_ %+0%1
+		%%top\FF\00\00v}%1:
+		mov eax, eax
+		mov eax,'%%top_{%$v} \00
+		mov eax, v\FF\FF\FF\FFpop
+%endmacro
+
+bug a
