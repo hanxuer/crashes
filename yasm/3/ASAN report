@@ -1,0 +1,28 @@
+=================================================================
+==51272==ERROR: LeakSanitizer: detected memory leaks
+
+Direct leak of 1025 byte(s) in 1 object(s) allocated from:
+    #0 0x7fe1612fab40 in __interceptor_malloc (/usr/lib/x86_64-linux-gnu/libasan.so.4+0xdeb40)
+    #1 0x558c0e1ec619 in def_xmalloc libyasm/xmalloc.c:69
+    #2 0x558c0e1c9c53 in yasm_error_set_va libyasm/errwarn.c:277
+    #3 0x558c0e1c9da6 in yasm_error_set libyasm/errwarn.c:290
+    #4 0x558c0e21933f in expect_ modules/parsers/nasm/nasm-parse.c:208
+    #5 0x558c0e21d337 in parse_instr modules/parsers/nasm/nasm-parse.c:768
+    #6 0x558c0e21be19 in parse_exp modules/parsers/nasm/nasm-parse.c:566
+    #7 0x558c0e219d2e in parse_line modules/parsers/nasm/nasm-parse.c:289
+    #8 0x558c0e2195fd in nasm_parser_parse modules/parsers/nasm/nasm-parse.c:231
+    #9 0x558c0e2186f4 in nasm_do_parse modules/parsers/nasm/nasm-parser.c:66
+    #10 0x558c0e218875 in nasm_parser_do_parse modules/parsers/nasm/nasm-parser.c:83
+    #11 0x558c0e1b14ae in do_assemble frontends/vsyasm/vsyasm.c:431
+    #12 0x558c0e1b296e in main frontends/vsyasm/vsyasm.c:714
+    #13 0x7fe160e4cc86 in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x21c86)
+
+Direct leak of 12 byte(s) in 1 object(s) allocated from:
+    #0 0x7fe1612fab40 in __interceptor_malloc (/usr/lib/x86_64-linux-gnu/libasan.so.4+0xdeb40)
+    #1 0x558c0e1ec619 in def_xmalloc libyasm/xmalloc.c:69
+    #2 0x558c0e1cdc7b in yasm__combpath_unix libyasm/file.c:307
+    #3 0x558c0e1b0565 in do_assemble frontends/vsyasm/vsyasm.c:286
+    #4 0x558c0e1b296e in main frontends/vsyasm/vsyasm.c:714
+    #5 0x7fe160e4cc86 in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x21c86)
+
+SUMMARY: AddressSanitizer: 1037 byte(s) leaked in 2 allocation(s).
