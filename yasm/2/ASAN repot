@@ -1,0 +1,64 @@
+=================================================================
+==103014==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x604000000c7b at pc 0x7ff8744ee2d6 bp 0x7fff1da130c0 sp 0x7fff1da12868
+WRITE of size 16 at 0x604000000c7b thread T0
+    #0 0x7ff8744ee2d5 in __interceptor_strcat (/usr/lib/x86_64-linux-gnu/libasan.so.4+0x782d5)
+    #1 0x55f1d48695e2 in inc_fopen modules/preprocs/nasm/nasm-pp.c:1829
+    #2 0x55f1d486f6af in do_directive modules/preprocs/nasm/nasm-pp.c:2731
+    #3 0x55f1d48806ef in pp_getline modules/preprocs/nasm/nasm-pp.c:5075
+    #4 0x55f1d485e225 in nasm_preproc_get_line modules/preprocs/nasm/nasm-preproc.c:195
+    #5 0x55f1d4852c08 in nasm_parser_parse modules/parsers/nasm/nasm-parse.c:218
+    #6 0x55f1d48516f4 in nasm_do_parse modules/parsers/nasm/nasm-parser.c:66
+    #7 0x55f1d4851875 in nasm_parser_do_parse modules/parsers/nasm/nasm-parser.c:83
+    #8 0x55f1d47ea4ae in do_assemble frontends/vsyasm/vsyasm.c:431
+    #9 0x55f1d47eb96e in main frontends/vsyasm/vsyasm.c:714
+    #10 0x7ff8740a6c86 in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x21c86)
+    #11 0x55f1d47e91e9 in _start (/home/hanxuerr/HTFuzz1/target_program/yasm/yasm-asan-test/vsyasm+0xa41e9)
+
+0x604000000c7b is located 0 bytes to the right of 43-byte region [0x604000000c50,0x604000000c7b)
+allocated by thread T0 here:
+    #0 0x7ff874554f30 in realloc (/usr/lib/x86_64-linux-gnu/libasan.so.4+0xdef30)
+    #1 0x55f1d48256e9 in def_xrealloc libyasm/xmalloc.c:101
+    #2 0x55f1d4869568 in inc_fopen modules/preprocs/nasm/nasm-pp.c:1826
+    #3 0x55f1d486f6af in do_directive modules/preprocs/nasm/nasm-pp.c:2731
+    #4 0x55f1d48806ef in pp_getline modules/preprocs/nasm/nasm-pp.c:5075
+    #5 0x55f1d485e225 in nasm_preproc_get_line modules/preprocs/nasm/nasm-preproc.c:195
+    #6 0x55f1d4852c08 in nasm_parser_parse modules/parsers/nasm/nasm-parse.c:218
+    #7 0x55f1d48516f4 in nasm_do_parse modules/parsers/nasm/nasm-parser.c:66
+    #8 0x55f1d4851875 in nasm_parser_do_parse modules/parsers/nasm/nasm-parser.c:83
+    #9 0x55f1d47ea4ae in do_assemble frontends/vsyasm/vsyasm.c:431
+    #10 0x55f1d47eb96e in main frontends/vsyasm/vsyasm.c:714
+    #11 0x7ff8740a6c86 in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x21c86)
+
+SUMMARY: AddressSanitizer: heap-buffer-overflow (/usr/lib/x86_64-linux-gnu/libasan.so.4+0x782d5) in __interceptor_strcat
+Shadow bytes around the buggy address:
+  0x0c087fff8130: fa fa 00 00 00 00 00 00 fa fa 00 00 00 00 00 00
+  0x0c087fff8140: fa fa 00 00 00 00 00 00 fa fa 00 00 00 00 00 00
+  0x0c087fff8150: fa fa 00 00 00 00 00 00 fa fa 00 00 00 00 00 00
+  0x0c087fff8160: fa fa 00 00 00 00 00 00 fa fa 00 00 00 00 00 00
+  0x0c087fff8170: fa fa 00 00 00 00 00 00 fa fa 00 00 00 00 00 00
+=>0x0c087fff8180: fa fa 00 00 00 00 00 00 fa fa 00 00 00 00 00[03]
+  0x0c087fff8190: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c087fff81a0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c087fff81b0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c087fff81c0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c087fff81d0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+==103014==ABORTING
