@@ -12,7 +12,7 @@ WRITE of size 16 at 0x604000000c7b thread T0
     #8 0x55f1d47ea4ae in do_assemble frontends/vsyasm/vsyasm.c:431
     #9 0x55f1d47eb96e in main frontends/vsyasm/vsyasm.c:714
     #10 0x7ff8740a6c86 in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x21c86)
-    #11 0x55f1d47e91e9 in _start (/home/hanxuerr/HTFuzz1/target_program/yasm/yasm-asan-test/vsyasm+0xa41e9)
+    #11 0x55f1d47e91e9 in _start (/home/hanxuerr/myFuzz/target_program/yasm/yasm-asan-test/vsyasm+0xa41e9)
 
 0x604000000c7b is located 0 bytes to the right of 43-byte region [0x604000000c50,0x604000000c7b)
 allocated by thread T0 here:
