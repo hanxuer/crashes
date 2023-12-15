@@ -7,8 +7,8 @@ Ubuntu 18.04 LTS
 3.Build steps
 $ vim Makefile
 edit:DOCKER_GCC=gcc
-DOCKER_CLANG=clang
-/$(DOCKER_GCC) /$(CFLAGS) /$(TOP_MJS_SOURCES) /$(TOP_COMMON_SOURCES) -o /$(PROG)
+     DOCKER_CLANG=clang
+    $(DOCKER_GCC) /$(CFLAGS) /$(TOP_MJS_SOURCES) $(TOP_COMMON_SOURCES) -o /$(PROG)
 // then save
 
 $ make
@@ -17,4 +17,4 @@ $ make
 $ ./build/mjs poc.js
 
 crashes_type: mjs: src/mjs_json.c:406: void frozen_cb(void *, const char *, size_t, const char *, const struct json_token *): Assertion `ctx->frame == NULL' failed.
-[1]    111718 abort      mjs poc.js
+
