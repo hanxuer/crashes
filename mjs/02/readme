@@ -1,0 +1,18 @@
+1.mjs v2.20
+
+2.Build platform
+Ubuntu 18.04 LTS 
+
+3.Build steps
+$vim Makefile
+edit：DOCKER_GCC=gcc
+      DOCKER_CLANG=clang
+      $(DOCKER_GCC) $(CFLAGS) $(TOP_MJS_SOURCES) $(TOP_COMMON_SOURCES) -o $(PROG)
+//then save
+
+$make
+
+4.Execution steps & Output
+$ ./build/mjs poc.js
+
+crashes_type: mjs: src/mjs_ffi.c:560: ffi_fn_t *get_cb_impl_by_signature(const mjs_ffi_sig_t *): Assertion `userdata_idx > 0' failed.
