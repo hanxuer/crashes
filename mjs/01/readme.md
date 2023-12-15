@@ -6,9 +6,9 @@ Ubuntu 18.04 LTS
 
 3.Build steps
 $ vim Makefile
-DOCKER_GCC=gcc
+edit:DOCKER_GCC=gcc
 DOCKER_CLANG=clang
-$(DOCKER_GCC) $(CFLAGS) $(TOP_MJS_SOURCES) $(TOP_COMMON_SOURCES) -o $(PROG)
+/$(DOCKER_GCC) /$(CFLAGS) /$(TOP_MJS_SOURCES) /$(TOP_COMMON_SOURCES) -o /$(PROG)
 // then save
 
 $ make
