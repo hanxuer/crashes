@@ -1,0 +1,4 @@
+let o = {
+  foo: ffi('int(fint)n( int)'),
+  foo: ffi('\n(f'),
+};
