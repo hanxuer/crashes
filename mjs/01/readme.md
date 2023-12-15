@@ -9,7 +9,7 @@ $ vim Makefile
 DOCKER_GCC=gcc
 DOCKER_CLANG=clang
 $(DOCKER_GCC) $(CFLAGS) $(TOP_MJS_SOURCES) $(TOP_COMMON_SOURCES) -o $(PROG)
-# then save
+// then save
 
 $ make
 
