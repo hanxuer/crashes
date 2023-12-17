@@ -1,1 +1,42 @@
-11
+1.JerryScript revision
+Version: v3.0.0
+
+2.Build platform
+Ubuntu 18.04 LTS 
+
+3.Build steps
+python ./tools/build.py --clean --debug --compile-flag=-m32 --compile-flag=-fno-omit-frame-pointer --compile-flag=-fno-common --compile-flag=-fsanitize=address --compile-flag=-g --strip=off --lto=off --error-messages=on --system-allocator=on --logging=on --line-info=on --stack-limit=20
+
+4.Test
+./jerryscript/build/bin/jerry ./poc
+
+5.result
+ICE: Assertion '(c & LIT_UTF8_3_BYTE_MASK) == LIT_UTF8_3_BYTE_MARKER' failed at /home/jerryscript-/jerryscript/jerry-core/lit/lit-strings.c(lit_read_code_unit_from_cesu8):433.
+Error: JERRY_FATAL_FAILED_ASSERTION
+
+6.gdb trace
+gef➤  bt
+#0  0xf7fd4df9 in __kernel_vsyscall ()
+#1  0xf7cf9a02 in __libc_signal_restore_set (set=0xffffc2fc) at ../sysdeps/unix/sysv/linux/nptl-signals.h:80
+#2  __GI_raise (sig=0x6) at ../sysdeps/unix/sysv/linux/raise.c:48
+#3  0xf7cfae91 in __GI_abort () at abort.c:79
+#4  0x082092a4 in jerry_port_fatal (code=JERRY_FATAL_FAILED_ASSERTION) at /home/jerryscript-/jerryscript/jerry-port/common/jerry-port-process.c:29
+#5  0x0811be09 in jerry_fatal (code=JERRY_FATAL_FAILED_ASSERTION) at /home/jerryscript-/jerryscript/jerry-core/jrt/jrt-fatals.c:63
+#6  0x0811be84 in jerry_assert_fail (assertion=0x821f664 "(c & LIT_UTF8_3_BYTE_MASK) == LIT_UTF8_3_BYTE_MARKER", file=0x821f4ca "/home/jerryscript-/jerryscript/jerry-core/lit/lit-strings.c", function=0x821f646 "lit_read_code_unit_from_cesu8", line=0x1b1) at /home/hanxuerr/myfuzz/target_program/jerryscript-/jerryscript/jerry-core/jrt/jrt-fatals.c:83
+#7  0x08123ef9 in lit_read_code_unit_from_cesu8 (buf_p=0x82777d2 "\214\212\ntus{re-\021", code_unit=0xffffc5fe) at /home/jerryscript-/jerryscript/jerry-core/lit/lit-strings.c:433
+#8  0x08124c7b in lit_cesu8_read_next (buf_p=0xffffc684) at /home/jerryscript-/jerryscript/jerry-core/lit/lit-strings.c:513
+#9  0x0814cdee in re_parse_next_token (re_ctx_p=<optimized out>) at /home/jerryscript-/jerryscript/jerry-core/parser/regexp/re-parser.c:648
+#10 re_parse_alternative (re_ctx_p=0xffffc680, expect_eof=<optimized out>) at /home/jerryscript-/jerryscript/jerry-core/parser/regexp/re-parser.c:1101
+#11 0x0814ae14 in re_compile_bytecode (pattern_str_p=0x82777c0, flags=0x0) at /home/jerryscript-/jerryscript/jerry-core/parser/regexp/re-compiler.c:132
+#12 0x081d49fd in lexer_construct_regexp_object (context_p=0xffffc8b0, parse_only=<optimized out>) at /home/jerryscript-/jerryscript/jerry-core/parser/js/js-lexer.c:2914
+#13 0x081e0c79 in parser_parse_unary_expression (context_p=0xffffc8b0, grouping_level_p=0xffffc784) at /home/jerryscript-/jerryscript/jerry-core/parser/js/js-parser-expr.c:2165
+#14 0x081d9134 in parser_parse_expression (context_p=0xffffc8b0, options=0x2) at /home/jerryscript-/jerryscript/jerry-core/parser/js/js-parser-expr.c:4115
+#15 0x081e031a in parser_parse_block_expression (context_p=0xffffc8b0, options=0x0) at /home/jerryscript-/jerryscript/jerry-core/parser/js/js-parser-expr.c:4065
+#16 0x081f3769 in parser_parse_statements (context_p=0xffffc8b0) at /home/jerryscript-/jerryscript/jerry-core/parser/js/js-parser-statm.c:3079
+#17 0x081306ed in parser_parse_source (source_p=0x807e103 <ecma_new_ecma_string_from_utf8+611>, parse_opts=0x0, options_p=0xffffcb28) at /home/jerryscript-/jerryscript/jerry-core/parser/js/js-parser.c:2280
+#18 0x0812f598 in parser_parse_script (source_p=0xffffcaf8, parse_opts=0x0, options_p=0xffffcb28) at /home/jerryscript-/jerryscript/jerry-core/parser/js/js-parser.c:3326
+#19 0x0804e49b in jerry_parse_common (source_p=0xffffcaf8, options_p=<optimized out>, parse_opts=<optimized out>) at /home/jerryscript-/jerryscript/jerry-core/api/jerryscript.c:418
+#20 0x0804e193 in jerry_parse (source_p=0x8278700 "/f?mrejyrnuQ\017-\360\214\212\222tus{re-/</Q\017-\360\214\212\222tus{re-/</su\360\214\212\222mre\360\214\212\222tus{re./</su\360\214\212\222mre\360\214\212\222tustringify\017-turnu􌊒mt0tmmse\360\214\212\222", source_size=0x103, options_p=0xffffcb28) at /home/jerryscript-/jerryscript/jerry-core/api/jerryscript.c:486
+#21 0x082077b2 in jerryx_source_parse_script (path_p=0xffffcee5 "id:000002,sig:06,src:003953,op:MOpt-core-havoc,rep:2") at /home/jerryscript-/jerryscript/jerry-ext/util/sources.c:52
+#22 0x08207903 in jerryx_source_exec_script (path_p=0xffffcee5 "id:000002,sig:06,src:003953,op:MOpt-core-havoc,rep:2") at /home/jerryscript-/jerryscript/jerry-ext/util/sources.c:63
+#23 0x08049b55 in main (argc=0x2, argv=0xffffcc84) at /home/hanxuerr/myfuzz/target_program/jerryscript-/jerryscript/jerry-main/main-desktop.c:156
