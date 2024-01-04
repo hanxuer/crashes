@@ -15,16 +15,19 @@ memory leak
 ubuntu 18.04 TLS
 
 ### 6.Compiler yasm with asan
+```
 $ export CC=/usr/bin/clang
 $ export CXX=/usr/bin/clang++
 $ ./configure --disable-shared CFLAGS="-fsanitize-recover=address -ggdb" CXXFLAGS="-fsanitize=address -ggdb" 
 $ make
+```
 
 ### 7.How to test
 poc is in https://github.com/hanxuer/crashes/edit/main/yasm/04/poc
 ./yasm ./poc
 
 ### 8.ASAN report
+```
 =================================================================
 ==118137==ERROR: LeakSanitizer: detected memory leaks
 
@@ -60,9 +63,10 @@ Direct leak of 4 byte(s) in 1 object(s) allocated from:
     #12 0x7fd4a5d51c86 in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x21c86)
 
 SUMMARY: AddressSanitizer: 49 byte(s) leaked in 14 allocation(s).
-
+```
 ### 9.source code：
 nasm-pp.c
+```
 else
 {
 if (txtlen == 0)
@@ -71,3 +75,4 @@ t->text = nasm_malloc(1 + txtlen); <-- this
 strncpy(t->text, text, txtlen);
 t->text[txtlen] = '\0';
 }
+```
