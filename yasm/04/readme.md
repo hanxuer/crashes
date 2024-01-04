@@ -1,25 +1,30 @@
-1.version:yasm v1.3.0
+### 1.The name of the affected product:
+yasm 
 
-2.test environment
+### 2.The affect version
+yasm v1.3.0
+Commit: 9defefa
+
+### 3.Description
+yasm v1.3.0 was discovered to contain a memory leak via the function new_Token function in the modules/preprocs/nasm/nasm-pp:1512.
+
+### 4.Vulnerability Type
+memory leak
+
+### 5.Test environment
 ubuntu 18.04 TLS
 
-3.build yasm with asan
+### 6.Compiler yasm with asan
 $ export CC=/usr/bin/clang
 $ export CXX=/usr/bin/clang++
 $ ./configure --disable-shared CFLAGS="-fsanitize-recover=address -ggdb" CXXFLAGS="-fsanitize=address -ggdb" 
 $ make
 
-4../yasm ./poc
+### 7.How to test
+poc is in https://github.com/hanxuer/crashes/edit/main/yasm/04/poc
+./yasm ./poc
 
-5.ASAN report
-crashes_type: yasm: file name already has no extension: output will be in `yasm.out'
-crashes/id:000146,sig:11,src:002083,op:ext_AO,pos:44:1: error: junk at end of line, first unrecognized character is `/'
-crashes/id:000146,sig:11,src:002083,op:ext_AO,pos:44:2: error: undefined symbol `rep' in preprocessor
-crashes/id:000146,sig:11,src:002083,op:ext_AO,pos:44:2: error: undefined symbol `struc' in preprocessor
-crashes/id:000146,sig:11,src:002083,op:ext_AO,pos:44:2: warning: trailing garbage after expression ignored
-crashes/id:000146,sig:11,src:002083,op:ext_AO,pos:44:2: error: non-constant value given to `%rep'
-crashes/id:000146,sig:11,src:002083,op:ext_AO,pos:44:3: error: `%endm': not defining a macro
-
+### 8.ASAN report
 =================================================================
 ==118137==ERROR: LeakSanitizer: detected memory leaks
 
@@ -49,7 +54,20 @@ Direct leak of 4 byte(s) in 1 object(s) allocated from:
     #8 0x564e5fa140af in nasm_do_parse modules/parsers/nasm/nasm-parser.c:66
     #9 0x564e5fa14230 in nasm_parser_do_parse modules/parsers/nasm/nasm-parser.c:83
     #10 0x564e5f9ad901 in do_assemble frontends/yasm/yasm.c:519
+
+
     #11 0x564e5f9ae6bf in main frontends/yasm/yasm.c:749
     #12 0x7fd4a5d51c86 in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x21c86)
 
 SUMMARY: AddressSanitizer: 49 byte(s) leaked in 14 allocation(s).
+
+### 9.source code：
+nasm-pp.c
+else
+{
+if (txtlen == 0)
+txtlen = strlen(text);
+t->text = nasm_malloc(1 + txtlen); <-- this
+strncpy(t->text, text, txtlen);
+t->text[txtlen] = '\0';
+}
