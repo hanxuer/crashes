@@ -9,7 +9,7 @@ $ export CXX=/usr/bin/clang++
 $ ./configure --disable-shared CFLAGS="-fsanitize-recover=address -ggdb" CXXFLAGS="-fsanitize=address -ggdb" 
 $ make
 
-4../yasm -w poc
+4../yasm ./poc
 
 5.ASAN report
 crashes_type: yasm: file name already has no extension: output will be in `yasm.out'
