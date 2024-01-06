@@ -32,7 +32,7 @@ $ ./configure --enable-sanitizer
 $ make
 ```
 
-### How to test
+### How to reproduce
 ./bin/gcc/MP4Box -dash 10000 ./poc    
 poc link：https://github.com/hanxuer/crashes/raw/main/gapc/01/poc.zip
 
@@ -61,7 +61,7 @@ GDB backtrace:
 #18 0x00005555555db23a in _start ()
 ```
 
-### vul in source code：
+### Vul in source code：
 isom_write.c
 ```c
 entry->Height = udesc->height;
