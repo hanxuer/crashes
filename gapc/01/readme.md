@@ -1,7 +1,7 @@
-### 1.The name of the affected product:
+### The name of the affected product:
 GPAC MP4Box
 
-### 2.The affect version
+### The affect version
 ```
 MP4Box - GPAC version 2.3-DEV-revrelease
 (c) 2000-2023 Telecom Paris distributed under LGPL v2.1+ - https://gpac.io
@@ -13,30 +13,30 @@ Please cite our work in your research:
 GPAC Configuration: 
 Features: GPAC_CONFIG_LINUX GPAC_64_BITS GPAC_HAS_IPV6 GPAC_HAS_SOCK_UN GPAC_MINIMAL_ODF GPAC_HAS_QJS GPAC_HAS_JPEG GPAC_HAS_PNG GPAC_HAS_LINUX_DVB  GPAC_DISABLE_3D 
 ```
-### 3.Description
+### Description
 GPAC v2.3 8684dfb was detected to contain a buffer overflow via the function gf_isom_new_generic_sample_description function in the isomedia/isom_write.c:4577
 
-### 4.Vulnerability Type
+### Vulnerability Type
 buffer overflow
 
-### 5.Test environment
+### Test environment
 ```
 $ uname -a
 Linux ubuntu 5.4.0-152-generic #169~18.04.1-Ubuntu SMP Wed Jun 7 22:22:24 UTC 2023 x86_64 x86_64 x86_64 GNU/Linux
 ```
 
-### 6.Compiler yasm with asan
+### Compiler yasm with asan
 vendor link：[https://github.com/yasm/yasm](https://github.com/gpac/gpac)
 ```
 $ ./configure --enable-sanitizer 
 $ make
 ```
 
-### 7.How to test
-./bin/gcc/MP4Box -dash 10000 ./poc
-poc link：
+### How to test
+./bin/gcc/MP4Box -dash 10000 ./poc    
+poc link：https://github.com/hanxuer/crashes/raw/main/gapc/01/poc.zip
 
-### 8.report
+### Report
 GDB backtrace:
 *** buffer overflow detected ***: ../../gpac-asan/bin/gcc/MP4Box terminated
 ```
@@ -61,7 +61,7 @@ GDB backtrace:
 #18 0x00005555555db23a in _start ()
 ```
 
-### 9.vul in source code：
+### vul in source code：
 isom_write.c
 ```c
 entry->Height = udesc->height;
