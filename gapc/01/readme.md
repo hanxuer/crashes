@@ -25,8 +25,8 @@ $ uname -a
 Linux ubuntu 5.4.0-152-generic #169~18.04.1-Ubuntu SMP Wed Jun 7 22:22:24 UTC 2023 x86_64 x86_64 x86_64 GNU/Linux
 ```
 
-### Compiler yasm with asan
-vendor link：[https://github.com/yasm/yasm](https://github.com/gpac/gpac)
+### Compiler with asan
+vendor link：https://github.com/gpac/gpac
 ```
 $ ./configure --enable-sanitizer 
 $ make
