@@ -1,5 +1,6 @@
 ### 1.The name of the affected product:
 yasm 
+issue: https://github.com/yasm/yasm/issues/257
 
 ### 2.The affect version
 yasm v1.3.0
